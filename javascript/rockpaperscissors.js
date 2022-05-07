@@ -17,10 +17,12 @@ function computerPlay() {
     return computerHand;
 }
 
+function createText(winner, loser) {
+
+}
+
 // Function that plays one round
 function playRound(playerSelection, computerSelection) {
-    playerSelection = prompt("What will you throw? \n");
-    playerSelection = playerSelection.toLowerCase();
     computerSelection = computerPlay();
     let winner;
 
@@ -50,28 +52,31 @@ function playRound(playerSelection, computerSelection) {
     }
     return winner;
 }
- 
-// Function to play 5 rounds of rps
-function game() {
-    let playerScore = 0;
-    let computerScore = 0;
-    for (let i = 0; i < 5; i++) {
-        winner = playRound();
-        if (winner == 'player') {
-            playerScore += 1;
-        } else if (winner == 'computer') {
-            computerScore += 1;
-        } else {
-            console.log('No points were added.')
-        }
-    }
-    if (playerScore > computerScore) {
-        console.log(`Player has won with a total score of ${playerScore}!`)
-    } else if (playerScore < computerScore) {
-        console.log(`Computer has won with a total score of ${playerScore}!`)
-    } else {
-        console.log(`Game ended in a tie.`)
-    }
-}
 
-game();
+const buttonContainer = document.createElement('div');
+buttonContainer.setAttribute('id', 'button-container');
+
+document.querySelector('body').appendChild(buttonContainer);
+
+const rock = document.createElement('button');
+rock.textContent = 'rock';
+const paper = document.createElement('button');
+paper.textContent = 'paper';
+const scissors = document.createElement('button');
+scissors.textContent = 'scissors';
+
+buttonContainer.appendChild(rock);
+buttonContainer.appendChild(paper);
+buttonContainer.appendChild(scissors);
+
+rock.addEventListener('click', function() {
+    playRound(rock.innerText);
+});
+paper.addEventListener('click', function() {
+    playRound(paper.innerText);
+});
+scissors.addEventListener('click', function() {
+    playRound(scissors.innerText);
+});
+
+
