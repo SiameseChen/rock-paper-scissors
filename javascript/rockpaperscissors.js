@@ -1,3 +1,20 @@
+let playerScore = 0;
+let computerScore = 0;
+
+rock = document.querySelector('#rock');
+paper = document.querySelector('#paper');
+scisors = document.querySelector('#scissors');
+
+rock.addEventListener('click', function() {
+    playRound(rock.innerText);
+});
+paper.addEventListener('click', function() {
+    playRound(paper.innerText);
+});
+scissors.addEventListener('click', function() {
+    playRound(scissors.innerText);
+});
+
 // Gets random integer
 function getRandomInt(max) {
     return Math.floor(Math.random() * max);
@@ -17,66 +34,69 @@ function computerPlay() {
     return computerHand;
 }
 
-function createText(winner, loser) {
-
-}
-
 // Function that plays one round
 function playRound(playerSelection, computerSelection) {
+    const resultDiv = document.querySelector('#results');
     computerSelection = computerPlay();
-    let winner;
+    displayResults(playerSelection, computerSelection);
+    let resultDisplay;
 
-    if (playerSelection == computerSelection) {
-        console.log(`Player has picked: ${playerSelection}, Computer has picked: ${computerSelection}. \n Result: Draw!`);
-        winner = 'none';
-    } else if (playerSelection == 'rock' && computerSelection == 'paper') {
-        console.log(`Player has picked: ${playerSelection}, Computer has picked: ${computerSelection}. \n Result: Computer wins!`);
-        winner = 'computer';
-    } else if (playerSelection == 'rock' && computerSelection == 'scissors'){
-        console.log(`Player has picked: ${playerSelection}, Computer has picked: ${computerSelection}. \n Result: Player wins!`);
-        winner = 'player';
-    } else if (playerSelection == 'paper' && computerSelection == 'scissors') {
-        console.log(`Player has picked: ${playerSelection}, Computer has picked: ${computerSelection}. \n Result: Computer wins!`);
-        winner = 'computer';
-    } else if (playerSelection == 'paper' && computerSelection == 'rock') {
-        console.log(`Player has picked: ${playerSelection}, Computer has picked: ${computerSelection}. \n Result: Player wins!`);
-        winner = 'player';
-    } else if (playerSelection == 'scissors' && computerSelection == 'rock') {
-        console.log(`Player has picked: ${playerSelection}, Computer has picked: ${computerSelection}. \n Result: Computer wins!`);
-        winner = 'computer';
-    } else if (playerSelection == 'scissors' && computerSelection == 'paper') {
-        console.log(`Player has picked: ${playerSelection}, Computer has picked: ${computerSelection}. \n Result: Player wins!`);
-        winner = 'player';
-    } else {
-        console.log(`${playerSelection} invalid. Please type \'rock\', \'paper\', or \'scissors\'.`)
+    console.log(playerScore);
+    console.log(computerScore);
+
+    if (playerScore == 5) {
+        resultDisplay = document.createElement('h2')
+        resultDisplay.textContent = `Player was the first to reach 5 points! You beat the computer by ${playerScore - computerScore} points.`;
+        resultDiv.appendChild(resultDisplay);
+        playerScore = 0;
+        computerScore = 0;
+    } else if (computerScore == 5) {
+        resultDisplay = document.createElement('h2')
+        resultDisplay.textContent = `Computer was the first to reach 5 points! The computer has beaten you by ${computerScore - playerScore} points.`;
+        resultDiv.appendChild(resultDisplay);
+        playerScore = 0;
+        computerScore = 0;
     }
-    return winner;
 }
 
-const buttonContainer = document.createElement('div');
-buttonContainer.setAttribute('id', 'button-container');
+function displayResults(playerSelection, computerSelection) {
+    let result;
 
-document.querySelector('body').appendChild(buttonContainer);
+    if (playerSelection == computerSelection) {
+        result = document.createElement('p');
+        result.textContent = `Player has picked: ${playerSelection}, Computer has picked: ${computerSelection}. \n Result: Draw!`;
+    } else if (playerSelection == 'rock' && computerSelection == 'paper') {
+        result = document.createElement('p');
+        result.textContent = `Player has picked: ${playerSelection}, Computer has picked: ${computerSelection}. \n Result: Computer wins!`;
+        computerScore++;
+    } else if (playerSelection == 'rock' && computerSelection == 'scissors') {
+        result = document.createElement('p');
+        result.textContent = `Player has picked: ${playerSelection}, Computer has picked: ${computerSelection}. \n Result: Player wins!`;
+        playerScore++;
+    } else if (playerSelection == 'paper' && computerSelection == 'scissors') {
+        result = document.createElement('p');
+        result.textContent = `Player has picked: ${playerSelection}, Computer has picked: ${computerSelection}. \n Result: Computer wins!`;
+        computerScore++;
+    } else if (playerSelection == 'paper' && computerSelection == 'rock') {
+        result = document.createElement('p');
+        result.textContent = `Player has picked: ${playerSelection}, Computer has picked: ${computerSelection}. \n Result: Player wins!`;
+        playerScore++;
+    } else if (playerSelection == 'scissors' && computerSelection == 'rock') {
+        result = document.createElement('p');
+        result.textContent = `Player has picked: ${playerSelection}, Computer has picked: ${computerSelection}. \n Result: Computer wins!`;
+        computerScore++;
+    } else if (playerSelection == 'scissors' && computerSelection == 'paper') {
+        result = document.createElement('p');
+        result.textContent = `Player has picked: ${playerSelection}, Computer has picked: ${computerSelection}. \n Result: Player wins!`;
+        playerScore++;
+    } else {
+        result = document.createElement('p');
+        result.textContent = `${playerSelection} invalid. Please type \'rock\', \'paper\', or \'scissors\'.`;
+    }
 
-const rock = document.createElement('button');
-rock.textContent = 'rock';
-const paper = document.createElement('button');
-paper.textContent = 'paper';
-const scissors = document.createElement('button');
-scissors.textContent = 'scissors';
+    console.log(result);
 
-buttonContainer.appendChild(rock);
-buttonContainer.appendChild(paper);
-buttonContainer.appendChild(scissors);
-
-rock.addEventListener('click', function() {
-    playRound(rock.innerText);
-});
-paper.addEventListener('click', function() {
-    playRound(paper.innerText);
-});
-scissors.addEventListener('click', function() {
-    playRound(scissors.innerText);
-});
-
+    const resultDiv = document.querySelector('#results');
+    resultDiv.appendChild(result);
+}
 
